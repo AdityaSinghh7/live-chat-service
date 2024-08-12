@@ -1,33 +1,158 @@
-.container{
+$primary-color: #3f51b5;
+$secondary-color: #f50057;
+$background-light: #ffffff;
+$background-dark: #121212;
+$card-dark: #1e1e1e;
+$text-light: #000000;
+$text-dark: #ffffff;
+$input-dark: #2e2e2e;
+$error-color: #f50057;
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+body {
     display: flex;
     justify-content: center;
-    margin: 100px;
-    min-width: 350px;
+    align-items: center;
+    background-color: $background-light;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.login{
-    margin-bottom: 20px;
+body.dark-mode {
+    background-color: $background-dark;
+    color: $text-dark;
 }
 
-mat-card{
-    mat-card-content{
-        form{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s;
 
-            mat-form-field{
-                width: 100%;
-                min-width: 300px;
+    &.dark-mode {
+        background-color: $background-dark;
+        color: $text-dark;
+
+        mat-card {
+            background-color: $card-dark;
+            color: $text-dark;
+
+            mat-card-header,
+            mat-card-content,
+            mat-card-actions {
+                background-color: $card-dark;
+                color: $text-dark;
             }
 
+            mat-form-field {
+                background-color: $input-dark;
+                border-radius: 4px;
+                padding: 8px;
 
-            .button {
-                    display: flex;
-                    justify-content: flex-end;
+                mat-label {
+                    color: $text-dark;
                 }
+
+                .mat-input-element {
+                    color: $text-dark;
+                }
+
+                mat-error {
+                    color: $error-color;
+                }
+            }
+
+            .hint mat-hint {
+                color: $error-color;
+            }
         }
 
-        
+        .dark-mode-toggle {
+            color: $text-dark;
+
+            .mat-slide-toggle-content {
+                color: $text-dark;
+            }
+        }
+    }
+}
+
+mat-card {
+    width: 100%;
+    max-width: 400px;
+    background-color: $background-light;
+    color: $text-light;
+    margin: 20px;
+    transition: background-color 0.3s, color 0.3s;
+
+    mat-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $primary-color;
+        color: $text-dark;
+        padding: 16px;
+        margin-bottom: 20px;
+
+        .dark-mode-toggle {
+            color: $text-dark;
+
+            .mat-slide-toggle-content {
+                color: $text-dark;
+            }
+        }
+    }
+
+    mat-card-content {
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            mat-form-field {
+                width: 100%;
+            }
+
+            mat-error {
+                font-size: 0.75rem;
+                line-height: 1em;
+                margin: 3px 14px 0;
+                color: $error-color;
+                display: block;
+            }
+
+            .hint {
+                display: flex;
+                justify-content: center;
+            }
+
+            .button {
+                display: flex;
+                justify-content: flex-end;
+
+                button {
+                    width: 100px;
+                }
+            }
+        }
+    }
+
+    mat-card-actions {
+        display: flex;
+        justify-content: center;
+        padding: 16px;
+
+        .login-link {
+            color: $primary-color;
+            text-decoration: none;
+            font-weight: bold;
+        }
     }
 }

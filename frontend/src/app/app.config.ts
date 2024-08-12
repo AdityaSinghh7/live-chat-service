@@ -6,13 +6,25 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes), provideClientHydration(), provideHttpClient(), 
     provideAnimationsAsync(),
     importProvidersFrom(
       BrowserAnimationsModule,
-      MatSnackBarModule
+      MatSnackBarModule,
+      JwtModule.forRoot({
+        config:
+        {
+          tokenGetter: tokenGetter,
+          allowedDomains: ['localhost:3000']
+        }
+      })
     )
   ]
 };

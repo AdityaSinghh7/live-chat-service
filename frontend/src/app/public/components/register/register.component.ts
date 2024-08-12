@@ -8,7 +8,7 @@ import { CustomValidators } from '../../_helpers/custom-validators';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user-service/user.service';
 import { tap } from 'rxjs';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +18,8 @@ import { tap } from 'rxjs';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    MatSlideToggleModule
 
   ],
   templateUrl: './register.component.html',
@@ -35,7 +36,7 @@ export class RegisterComponent {
   );
 
   constructor(private userService: UserService, private router: Router) { }
-
+  isDarkMode = false;
 
   get email(): FormControl {
     return this.form.get('email') as FormControl;
@@ -68,6 +69,11 @@ export class RegisterComponent {
         tap(() => this.router.navigate(['../login']))
       ).subscribe();
     }
+  }
+
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    document.body.classList.toggle('dark-mode', this.isDarkMode);
   }
 
 }
