@@ -26,7 +26,6 @@ export class UserController {
         )
     }
 
-    @UseGuards(JwtAuthGuard)
     @Get()
     findAll(
         @Query('page') page: number = 1,

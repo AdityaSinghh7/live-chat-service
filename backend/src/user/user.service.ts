@@ -17,9 +17,9 @@ export class UserService {
         @InjectRepository(UserEntity)
         private readonly userRepo: Repository<UserEntity>,
         private authenticationService: AuthService
-    ){}
+    ) { }
 
-    create(newUser: UserInterface): Observable<UserInterface>{
+    create(newUser: UserInterface): Observable<UserInterface> {
         return this.mailExists(newUser.email).pipe(
             switchMap((exists: boolean) => {
                 if (exists) {
@@ -39,7 +39,7 @@ export class UserService {
         );
     }
 
-    login(user: UserInterface): Observable<string>{
+    login(user: UserInterface): Observable<string> {
         return this.findByEmail(user.email).pipe(
             switchMap((foundUser: UserInterface) => {
                 if (foundUser) {
@@ -47,7 +47,7 @@ export class UserService {
                         switchMap((matches: boolean) => {
                             if (matches) {
                                 return this.findOne(foundUser.id).pipe(
-                                    switchMap((payload: UserInterface)=> this.authenticationService.generateJwt(payload))
+                                    switchMap((payload: UserInterface) => this.authenticationService.generateJwt(payload))
                                 );
                             } else {
                                 throw new HttpException('Unauthorized credentials', HttpStatus.UNAUTHORIZED);
@@ -66,36 +66,35 @@ export class UserService {
 
 
 
-    findAll(options: IPaginationOptions): Observable<Pagination<UserInterface>>{
+    findAll(options: IPaginationOptions): Observable<Pagination<UserInterface>> {
         return from(paginate<UserEntity>(this.userRepo, options));
     }
 
-
-
-
-
+    public getOne(id: number): Promise<UserInterface> {
+        return this.userRepo.findOneOrFail({ where: { id } });
+    }
 
     private findOne(id: number): Observable<UserInterface> {
         return from(this.userRepo.findOne({ where: { id }, select: ['id', 'username', 'email'] }));
     }
 
-    private validatePassword(password: string, storedPasswordHash: string): Observable<boolean>{
+    private validatePassword(password: string, storedPasswordHash: string): Observable<boolean> {
         return this.authenticationService.comparePasswords(password, storedPasswordHash);
 
     }
 
-    private findByEmail(email: string): Observable<UserInterface>{
-        return from(this.userRepo.findOne({where: {email}, select: ['id', 'email', 'password', 'username']}));
+    private findByEmail(email: string): Observable<UserInterface> {
+        return from(this.userRepo.findOne({ where: { email }, select: ['id', 'email', 'password', 'username'] }));
     }
 
-    private hashPassword(password: string): Observable<string>{
+    private hashPassword(password: string): Observable<string> {
         return this.authenticationService.hashPassword(password);
     }
 
-    private mailExists(email: string): Observable<boolean>{
+    private mailExists(email: string): Observable<boolean> {
         return from(this.userRepo.findOne({ where: { email } })).pipe(
             map((user: UserInterface) => {
-                return !!user;  
+                return !!user;
             })
         );
     }
