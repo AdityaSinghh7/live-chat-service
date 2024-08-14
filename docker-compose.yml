@@ -7,7 +7,7 @@ services:
     volumes:
       - ./backend:/adityasingh/src/app
       - /adityasingh/src/app/node_modules
-    command: npm run start:dev
+    command: npm run start:debug
     depends_on:
       - postgres
     environment:
@@ -16,8 +16,8 @@ services:
       JWT_SECRET: Secret51
       PORT: 3000
     ports:
-      - "3000:3000"
-      - "9229:9229"
+      - 3000:3000
+      - 9229:9229
 
   frontend:
     build:
@@ -29,25 +29,25 @@ services:
       - ./frontend:/adityasingh/frontend/src/app
       - /adityasingh/frontend/src/app/node_modules
     ports:
-      - "4200:4200"
+      - 4200:4200
     links:
       - backend
     
   postgres:
-    image: postgres
+    image: postgres:10.4
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: db
     ports:
-      - "35000:5432"
+      - 35000:5432
 
   postgres_admin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:4.28
     depends_on:
       - postgres
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: password
     ports:
-      - "5050:80"
+      - 5050:80
