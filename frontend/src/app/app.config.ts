@@ -7,9 +7,10 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
 
 export function tokenGetter() {
-  return localStorage.getItem('access_token');
+  return localStorage.getItem('nestjs_chat_app') || '';
 }
 
 export const appConfig: ApplicationConfig = {
